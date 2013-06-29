@@ -156,8 +156,8 @@ ActiveRecord::Schema.define(:version => 20130627194637) do
   end
 
   create_table "login_attempts", :force => true do |t|
-    t.string    "ip_address", :limit => 40, :null => false
-    t.timestamp "time",                     :null => false
+    t.string   "ip_address", :limit => 40, :null => false
+    t.datetime "time",                     :null => false
   end
 
   create_table "old_answers", :primary_key => "aid", :force => true do |t|
@@ -278,32 +278,32 @@ ActiveRecord::Schema.define(:version => 20130627194637) do
   end
 
   create_table "proyecto_status", :primary_key => "id_proyecto_status", :force => true do |t|
-    t.integer   "id_proyecto",                              :null => false
-    t.integer   "id_url",                                   :null => false
-    t.string    "rec_email"
-    t.integer   "source",      :limit => 2,                 :null => false
-    t.integer   "token"
-    t.integer   "status",      :limit => 1,                 :null => false
-    t.timestamp "time",                                     :null => false
-    t.string    "ip",          :limit => 50
-    t.string    "country",     :limit => 50
-    t.string    "district",    :limit => 50
-    t.string    "city",        :limit => 50
-    t.integer   "survey",      :limit => 1,  :default => 0
+    t.integer  "id_proyecto",                              :null => false
+    t.integer  "id_url",                                   :null => false
+    t.string   "rec_email"
+    t.integer  "source",      :limit => 2,                 :null => false
+    t.integer  "token"
+    t.integer  "status",      :limit => 1,                 :null => false
+    t.datetime "time",                                     :null => false
+    t.string   "ip",          :limit => 50
+    t.string   "country",     :limit => 50
+    t.string   "district",    :limit => 50
+    t.string   "city",        :limit => 50
+    t.integer  "survey",      :limit => 1,  :default => 0
   end
 
   add_index "proyecto_status", ["id_proyecto"], :name => "id_proyecto"
-  add_index "proyecto_status", ["id_url"], :name => "id_url"
-  add_index "proyecto_status", ["rec_email"], :name => "email"
+  add_index "proyecto_status", ["id_url"], :name => "id_url_p_status"
+  add_index "proyecto_status", ["rec_email"], :name => "email_p_status"
 
   create_table "proyecto_status_2011_11_14", :primary_key => "id_proyecto_status", :force => true do |t|
-    t.integer   "id_proyecto",              :null => false
-    t.integer   "id_url",                   :null => false
-    t.string    "rec_email"
-    t.integer   "source",      :limit => 1, :null => false
-    t.integer   "token"
-    t.integer   "status",      :limit => 1, :null => false
-    t.timestamp "time",                     :null => false
+    t.integer  "id_proyecto",              :null => false
+    t.integer  "id_url",                   :null => false
+    t.string   "rec_email"
+    t.integer  "source",      :limit => 1, :null => false
+    t.integer  "token"
+    t.integer  "status",      :limit => 1, :null => false
+    t.datetime "time",                     :null => false
   end
 
   create_table "questions", :primary_key => "qid", :force => true do |t|
@@ -471,7 +471,7 @@ ActiveRecord::Schema.define(:version => 20130627194637) do
     t.integer "aid",                   :null => false
   end
 
-  add_index "survey_mult", ["user_id"], :name => "user_id"
+  add_index "survey_mult", ["user_id"], :name => "m_user_id"
 
   create_table "survey_mult_g2k", :id => false, :force => true do |t|
     t.integer "id",                    :null => false
@@ -894,8 +894,8 @@ ActiveRecord::Schema.define(:version => 20130627194637) do
     t.datetime "enter"
   end
 
-  add_index "url_list_1096", ["id_url"], :name => "id_url"
-  add_index "url_list_1096", ["rec_email"], :name => "email"
+  add_index "url_list_1096", ["id_url"], :name => "id_url_1096"
+  add_index "url_list_1096", ["rec_email"], :name => "email_1096"
 
   create_table "url_list_1097", :primary_key => "id_url", :force => true do |t|
     t.string   "url"
@@ -2432,11 +2432,11 @@ ActiveRecord::Schema.define(:version => 20130627194637) do
   end
 
   create_table "user_autologin", :id => false, :force => true do |t|
-    t.string    "key_id",     :limit => 32,                 :null => false
-    t.integer   "user_id",    :limit => 3,   :default => 0, :null => false
-    t.string    "user_agent", :limit => 150,                :null => false
-    t.string    "last_ip",    :limit => 40,                 :null => false
-    t.timestamp "last_login",                               :null => false
+    t.string   "key_id",     :limit => 32,                 :null => false
+    t.integer  "user_id",    :limit => 3,   :default => 0, :null => false
+    t.string   "user_agent", :limit => 150,                :null => false
+    t.string   "last_ip",    :limit => 40,                 :null => false
+    t.datetime "last_login",                               :null => false
   end
 
   create_table "user_client", :primary_key => "user_client_id", :force => true do |t|
@@ -2451,111 +2451,53 @@ ActiveRecord::Schema.define(:version => 20130627194637) do
   end
 
   create_table "user_temp", :force => true do |t|
-    t.string    "firstname",      :limit => 50,  :null => false
-    t.string    "lastname",       :limit => 50,  :null => false
-    t.string    "password",       :limit => 100, :null => false
-    t.string    "email",          :limit => 100, :null => false
-    t.string    "activation_key", :limit => 50,  :null => false
-    t.string    "last_ip",        :limit => 40,  :null => false
-    t.timestamp "created",                       :null => false
-    t.string    "country",        :limit => 5
-    t.string    "district",       :limit => 50,  :null => false
-    t.string    "city",           :limit => 50
-    t.string    "sex",            :limit => 1
-    t.date      "dateofbirth"
-    t.integer   "ed_level",                      :null => false
-    t.integer   "ocupation",                     :null => false
-    t.boolean   "surveys",                       :null => false
-    t.string    "campaign",       :limit => 25
-  end
-
-  add_index "user_temp", ["email"], :name => "email"
-
-  create_table "user_temp_dif", :id => false, :force => true do |t|
-    t.integer   "id",                            :default => 0, :null => false
-    t.string    "firstname",      :limit => 50,                 :null => false
-    t.string    "lastname",       :limit => 50,                 :null => false
-    t.string    "password",       :limit => 100,                :null => false
-    t.string    "email",          :limit => 100,                :null => false
-    t.string    "activation_key", :limit => 50,                 :null => false
-    t.string    "last_ip",        :limit => 40,                 :null => false
-    t.timestamp "created",                                      :null => false
-    t.string    "country",        :limit => 5
-    t.string    "district",       :limit => 50,                 :null => false
-    t.string    "city",           :limit => 50
-    t.string    "sex",            :limit => 1
-    t.date      "dateofbirth"
-    t.integer   "ed_level",                                     :null => false
-    t.integer   "ocupation",                                    :null => false
-    t.boolean   "surveys",                                      :null => false
-    t.string    "campaign",       :limit => 25
-  end
-
-  create_table "user_temp_g2k", :force => true do |t|
-    t.string    "firstname",      :limit => 50,  :null => false
-    t.string    "lastname",       :limit => 50,  :null => false
-    t.string    "password",       :limit => 100, :null => false
-    t.string    "email",          :limit => 100, :null => false
-    t.string    "activation_key", :limit => 50,  :null => false
-    t.string    "last_ip",        :limit => 40,  :null => false
-    t.timestamp "created",                       :null => false
-    t.string    "country",        :limit => 5
-    t.string    "district",       :limit => 50,  :null => false
-    t.string    "city",           :limit => 50
-    t.string    "sex",            :limit => 1
-    t.date      "dateofbirth"
-    t.integer   "ed_level",                      :null => false
-    t.integer   "ocupation",                     :null => false
-    t.boolean   "surveys",                       :null => false
-    t.string    "campaign",       :limit => 25
-  end
-
-  create_table "user_temp_old", :force => true do |t|
-    t.string    "firstname",      :limit => 50,  :null => false
-    t.string    "lastname",       :limit => 50,  :null => false
-    t.string    "password",       :limit => 100, :null => false
-    t.string    "email",          :limit => 100, :null => false
-    t.string    "activation_key", :limit => 50,  :null => false
-    t.string    "last_ip",        :limit => 40,  :null => false
-    t.timestamp "created",                       :null => false
-    t.string    "country",        :limit => 5
-    t.string    "district",       :limit => 50,  :null => false
-    t.string    "city",           :limit => 50
-    t.string    "sex",            :limit => 1
-    t.date      "dateofbirth"
-    t.integer   "ed_level",                      :null => false
-    t.integer   "ocupation",                     :null => false
-    t.boolean   "surveys",                       :null => false
-    t.string    "campaign",       :limit => 25
+    t.string   "firstname",      :limit => 50,  :null => false
+    t.string   "lastname",       :limit => 50,  :null => false
+    t.string   "password",       :limit => 100, :null => false
+    t.string   "email",          :limit => 100, :null => false
+    t.string   "activation_key", :limit => 50,  :null => false
+    t.string   "last_ip",        :limit => 40,  :null => false
+    t.datetime "created",                       :null => false
+    t.string   "country",        :limit => 5
+    t.string   "district",       :limit => 50,  :null => false
+    t.string   "city",           :limit => 50
+    t.string   "sex",            :limit => 1
+    t.date     "dateofbirth"
+    t.integer  "ed_level",                      :null => false
+    t.integer  "ocupation",                     :null => false
+    t.boolean  "surveys",                       :null => false
+    t.string   "campaign",       :limit => 25
   end
 
   create_table "users", :force => true do |t|
-    t.integer   "role_id",                        :default => 1,     :null => false
-    t.string    "firstname",       :limit => 50,                     :null => false
-    t.string    "lastname",        :limit => 50,                     :null => false
-    t.string    "password",        :limit => 100,                    :null => false
-    t.string    "email",           :limit => 100,                    :null => false
-    t.boolean   "banned",                         :default => false, :null => false
-    t.string    "ban_reason"
-    t.string    "newpass",         :limit => 34
-    t.string    "newpass_key",     :limit => 32
-    t.datetime  "newpass_time"
-    t.string    "last_ip",         :limit => 40,                     :null => false
-    t.datetime  "last_login",                                        :null => false
-    t.datetime  "created",                                           :null => false
-    t.timestamp "modified",                                          :null => false
-    t.string    "country",         :limit => 5
-    t.string    "district",        :limit => 50,                     :null => false
-    t.string    "city",            :limit => 50
-    t.string    "sex",             :limit => 1
-    t.date      "dateofbirth"
-    t.integer   "ed_level",                                          :null => false
-    t.integer   "ocupation",                                         :null => false
-    t.boolean   "surveys",                                           :null => false
-    t.boolean   "activated"
-    t.string    "campaign",        :limit => 50
-    t.string    "activation_key",  :limit => 50
-    t.datetime  "activation_date"
+    t.integer  "role_id",                        :default => 1,     :null => false
+    t.string   "firstname",       :limit => 50,                     :null => false
+    t.string   "lastname",        :limit => 50,                     :null => false
+    t.string   "password",        :limit => 100,                    :null => false
+    t.string   "email",           :limit => 100,                    :null => false
+    t.boolean  "banned",                         :default => false, :null => false
+    t.string   "ban_reason"
+    t.string   "newpass",         :limit => 34
+    t.string   "newpass_key",     :limit => 32
+    t.datetime "newpass_time"
+    t.string   "last_ip",         :limit => 40,                     :null => false
+    t.datetime "last_login",                                        :null => false
+    t.datetime "created",                                           :null => false
+    t.datetime "modified",                                          :null => false
+    t.string   "country",         :limit => 5
+    t.string   "district",        :limit => 50,                     :null => false
+    t.string   "city",            :limit => 50
+    t.string   "sex",             :limit => 1
+    t.date     "dateofbirth"
+    t.integer  "ed_level",                                          :null => false
+    t.integer  "ocupation",                                         :null => false
+    t.boolean  "surveys",                                           :null => false
+    t.boolean  "activated"
+    t.string   "campaign",        :limit => 50
+    t.string   "activation_key",  :limit => 50
+    t.string   "youngson",        :limit => 50
+    t.string   "oldson",          :limit => 50
+    t.datetime "activation_date"
   end
 
   add_index "users", ["email"], :name => "email"
@@ -2581,66 +2523,66 @@ ActiveRecord::Schema.define(:version => 20130627194637) do
   end
 
   create_table "users_change", :primary_key => "id_change", :force => true do |t|
-    t.integer   "id",                                                :null => false
-    t.integer   "role_id",                        :default => 1,     :null => false
-    t.string    "firstname",       :limit => 50,                     :null => false
-    t.string    "lastname",        :limit => 50,                     :null => false
-    t.string    "password",        :limit => 100,                    :null => false
-    t.string    "email",           :limit => 100,                    :null => false
-    t.boolean   "banned",                         :default => false, :null => false
-    t.string    "ban_reason"
-    t.string    "newpass",         :limit => 34
-    t.string    "newpass_key",     :limit => 32
-    t.datetime  "newpass_time"
-    t.string    "last_ip",         :limit => 40,                     :null => false
-    t.datetime  "last_login",                                        :null => false
-    t.datetime  "created",                                           :null => false
-    t.timestamp "modified",                                          :null => false
-    t.string    "country",         :limit => 5
-    t.string    "district",        :limit => 50,                     :null => false
-    t.string    "city",            :limit => 50
-    t.string    "sex",             :limit => 1
-    t.date      "dateofbirth"
-    t.integer   "ed_level",                                          :null => false
-    t.integer   "ocupation",                                         :null => false
-    t.boolean   "surveys",                                           :null => false
-    t.boolean   "activated"
-    t.string    "campaign",        :limit => 50
-    t.string    "activation_key",  :limit => 50
-    t.datetime  "activation_date"
+    t.integer  "id",                                                :null => false
+    t.integer  "role_id",                        :default => 1,     :null => false
+    t.string   "firstname",       :limit => 50,                     :null => false
+    t.string   "lastname",        :limit => 50,                     :null => false
+    t.string   "password",        :limit => 100,                    :null => false
+    t.string   "email",           :limit => 100,                    :null => false
+    t.boolean  "banned",                         :default => false, :null => false
+    t.string   "ban_reason"
+    t.string   "newpass",         :limit => 34
+    t.string   "newpass_key",     :limit => 32
+    t.datetime "newpass_time"
+    t.string   "last_ip",         :limit => 40,                     :null => false
+    t.datetime "last_login",                                        :null => false
+    t.datetime "created",                                           :null => false
+    t.datetime "modified",                                          :null => false
+    t.string   "country",         :limit => 5
+    t.string   "district",        :limit => 50,                     :null => false
+    t.string   "city",            :limit => 50
+    t.string   "sex",             :limit => 1
+    t.date     "dateofbirth"
+    t.integer  "ed_level",                                          :null => false
+    t.integer  "ocupation",                                         :null => false
+    t.boolean  "surveys",                                           :null => false
+    t.boolean  "activated"
+    t.string   "campaign",        :limit => 50
+    t.string   "activation_key",  :limit => 50
+    t.datetime "activation_date"
   end
 
-  add_index "users_change", ["email"], :name => "email"
-  add_index "users_change", ["id_change"], :name => "id"
+  add_index "users_change", ["email"], :name => "email_change"
+  add_index "users_change", ["id_change"], :name => "id_change"
 
   create_table "users_dif", :id => false, :force => true do |t|
-    t.integer   "id",                             :default => 0,     :null => false
-    t.integer   "role_id",                        :default => 1,     :null => false
-    t.string    "firstname",       :limit => 50,                     :null => false
-    t.string    "lastname",        :limit => 50,                     :null => false
-    t.string    "password",        :limit => 100,                    :null => false
-    t.string    "email",           :limit => 100,                    :null => false
-    t.boolean   "banned",                         :default => false, :null => false
-    t.string    "ban_reason"
-    t.string    "newpass",         :limit => 34
-    t.string    "newpass_key",     :limit => 32
-    t.datetime  "newpass_time"
-    t.string    "last_ip",         :limit => 40,                     :null => false
-    t.datetime  "last_login",                                        :null => false
-    t.datetime  "created",                                           :null => false
-    t.timestamp "modified",                                          :null => false
-    t.string    "country",         :limit => 5
-    t.string    "district",        :limit => 50,                     :null => false
-    t.string    "city",            :limit => 50
-    t.string    "sex",             :limit => 1
-    t.date      "dateofbirth"
-    t.integer   "ed_level",                                          :null => false
-    t.integer   "ocupation",                                         :null => false
-    t.boolean   "surveys",                                           :null => false
-    t.boolean   "activated"
-    t.string    "campaign",        :limit => 50
-    t.string    "activation_key",  :limit => 50
-    t.datetime  "activation_date"
+    t.integer  "id",                             :default => 0,     :null => false
+    t.integer  "role_id",                        :default => 1,     :null => false
+    t.string   "firstname",       :limit => 50,                     :null => false
+    t.string   "lastname",        :limit => 50,                     :null => false
+    t.string   "password",        :limit => 100,                    :null => false
+    t.string   "email",           :limit => 100,                    :null => false
+    t.boolean  "banned",                         :default => false, :null => false
+    t.string   "ban_reason"
+    t.string   "newpass",         :limit => 34
+    t.string   "newpass_key",     :limit => 32
+    t.datetime "newpass_time"
+    t.string   "last_ip",         :limit => 40,                     :null => false
+    t.datetime "last_login",                                        :null => false
+    t.datetime "created",                                           :null => false
+    t.datetime "modified",                                          :null => false
+    t.string   "country",         :limit => 5
+    t.string   "district",        :limit => 50,                     :null => false
+    t.string   "city",            :limit => 50
+    t.string   "sex",             :limit => 1
+    t.date     "dateofbirth"
+    t.integer  "ed_level",                                          :null => false
+    t.integer  "ocupation",                                         :null => false
+    t.boolean  "surveys",                                           :null => false
+    t.boolean  "activated"
+    t.string   "campaign",        :limit => 50
+    t.string   "activation_key",  :limit => 50
+    t.datetime "activation_date"
   end
 
   create_table "users_email", :id => false, :force => true do |t|
@@ -2672,32 +2614,63 @@ ActiveRecord::Schema.define(:version => 20130627194637) do
   end
 
   create_table "users_g2k", :force => true do |t|
-    t.integer   "role_id",                        :default => 1,     :null => false
-    t.string    "firstname",       :limit => 50,                     :null => false
-    t.string    "lastname",        :limit => 50,                     :null => false
-    t.string    "password",        :limit => 100,                    :null => false
-    t.string    "email",           :limit => 100,                    :null => false
-    t.boolean   "banned",                         :default => false, :null => false
-    t.string    "ban_reason"
-    t.string    "newpass",         :limit => 34
-    t.string    "newpass_key",     :limit => 32
-    t.datetime  "newpass_time"
-    t.string    "last_ip",         :limit => 40,                     :null => false
-    t.datetime  "last_login",                                        :null => false
-    t.datetime  "created",                                           :null => false
-    t.timestamp "modified",                                          :null => false
-    t.string    "country",         :limit => 5
-    t.string    "district",        :limit => 50,                     :null => false
-    t.string    "city",            :limit => 50
-    t.string    "sex",             :limit => 1
-    t.date      "dateofbirth"
-    t.integer   "ed_level",                                          :null => false
-    t.integer   "ocupation",                                         :null => false
-    t.boolean   "surveys",                                           :null => false
-    t.boolean   "activated"
-    t.string    "campaign",        :limit => 50
-    t.string    "activation_key",  :limit => 50
-    t.datetime  "activation_date"
+    t.integer  "role_id",                        :default => 1,     :null => false
+    t.string   "firstname",       :limit => 50,                     :null => false
+    t.string   "lastname",        :limit => 50,                     :null => false
+    t.string   "password",        :limit => 100,                    :null => false
+    t.string   "email",           :limit => 100,                    :null => false
+    t.boolean  "banned",                         :default => false, :null => false
+    t.string   "ban_reason"
+    t.string   "newpass",         :limit => 34
+    t.string   "newpass_key",     :limit => 32
+    t.datetime "newpass_time"
+    t.string   "last_ip",         :limit => 40,                     :null => false
+    t.datetime "last_login",                                        :null => false
+    t.datetime "created",                                           :null => false
+    t.datetime "modified",                                          :null => false
+    t.string   "country",         :limit => 5
+    t.string   "district",        :limit => 50,                     :null => false
+    t.string   "city",            :limit => 50
+    t.string   "sex",             :limit => 1
+    t.date     "dateofbirth"
+    t.integer  "ed_level",                                          :null => false
+    t.integer  "ocupation",                                         :null => false
+    t.boolean  "surveys",                                           :null => false
+    t.boolean  "activated"
+    t.string   "campaign",        :limit => 50
+    t.string   "activation_key",  :limit => 50
+    t.datetime "activation_date"
+  end
+
+  create_table "usersview", :force => true do |t|
+    t.integer  "role_id",                        :default => 1,     :null => false
+    t.string   "firstname",       :limit => 50,                     :null => false
+    t.string   "lastname",        :limit => 50,                     :null => false
+    t.string   "password",        :limit => 100,                    :null => false
+    t.string   "email",           :limit => 100,                    :null => false
+    t.boolean  "banned",                         :default => false, :null => false
+    t.string   "ban_reason"
+    t.string   "newpass",         :limit => 34
+    t.string   "newpass_key",     :limit => 32
+    t.datetime "newpass_time"
+    t.string   "last_ip",         :limit => 40,                     :null => false
+    t.datetime "last_login",                                        :null => false
+    t.datetime "created",                                           :null => false
+    t.datetime "modified",                                          :null => false
+    t.string   "country",         :limit => 5
+    t.string   "district",        :limit => 50,                     :null => false
+    t.string   "city",            :limit => 50
+    t.string   "sex",             :limit => 1
+    t.date     "dateofbirth"
+    t.integer  "ed_level",                                          :null => false
+    t.integer  "ocupation",                                         :null => false
+    t.boolean  "surveys",                                           :null => false
+    t.boolean  "activated"
+    t.string   "campaign",        :limit => 50
+    t.string   "activation_key",  :limit => 50
+    t.string   "youngson",        :limit => 50
+    t.string   "oldson",          :limit => 50
+    t.datetime "activation_date"
   end
 
   create_table "visit", :primary_key => "visitid", :force => true do |t|

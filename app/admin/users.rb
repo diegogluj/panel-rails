@@ -1,12 +1,14 @@
+
 ActiveAdmin.register User do
-  actions :all, :except => [:destroy, :edit, :new]
+  actions :all, :except => [:destroy]
 
   filter :country
   filter :district
   filter :city
   filter :sex
   filter :dateofbirth
-
+  filter :youngson, :as => :string_ordinal
+  filter :oldson, :as => :string_ordinal
 
   index do
     column :firstname
@@ -19,9 +21,6 @@ ActiveAdmin.register User do
     column :activated
     column :youngson
     column :oldson
-    column :surveys do |user|
-      table_for user.surveys
-    end	
     default_actions
   end
   

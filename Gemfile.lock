@@ -60,6 +60,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
+    country_select (1.1.3)
     devise (2.2.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -141,6 +142,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    sqlite3 (1.3.7)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -162,10 +164,12 @@ PLATFORMS
 DEPENDENCIES
   activeadmin!
   coffee-rails (~> 3.2.1)
+  country_select
   jquery-rails
   mysql2
   rabl
   rails (= 3.2.13)
   sass-rails (~> 3.2.3)
+  sqlite3
   therubyracer
   uglifier (>= 1.0.3)

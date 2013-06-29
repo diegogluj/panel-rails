@@ -5,8 +5,14 @@ gem 'rails', '3.2.13'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2'
 
+group :development, :test do
+  gem 'sqlite3'
+end
+
+group :production do
+	gem 'mysql2'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -28,6 +34,7 @@ gem 'activeadmin', github: "gregbell/active_admin"
 # Rest API module
 gem 'rabl'
 
+gem 'country_select'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
